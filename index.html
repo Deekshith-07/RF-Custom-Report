@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Test Report</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-title">
+            <h3>IDOCX TEST REPORT</h3>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <a class="active" href="#home" onclick="showContent('overview')">Overview</a>
+        <a href="#testcases" onclick="showContent('testcases')">Test Cases</a>
+        <a href="#config" onclick="showContent('configurations')">Configurations</a>
+        <a href="#graphs" onclick="showContent('graphs')">Graphs</a>
+    </div>
+
+    <div class="content" id="overview">
+        <h2>Test Execution Summary</h2>
+        <div class="timestamp"> Generated on: 20-06-2024 12:34:43 AM</div>
+        <div class="table1-container">
+            <table id="overall-summary-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="overall-summary-table-header" style="color:#00ff00ab">3</th>
+                        <th class="overall-summary-table-header" style="color:red">1</th>
+                        <th class="overall-summary-table-header" style="color:orange">1</th>
+                        <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="overall-summary-table-cell" style="color:#00ff00ab">Passed</td>
+                        <td class="overall-summary-table-cell" style="color:red">Failed</td>
+                        <td class="overall-summary-table-cell" style="color:orange">Skipped</td>
+                        <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br><br>
+        <h2>Test Execution Results</h2>
+        <div class="table2-container">
+            <table id="testcase-status-table" style="width: 100%;">
+                <thead style="background-color: rgba(84, 82, 82, 0.383);">
+                    <tr>
+                        <th class="testcase-status-table-header">Sr. No</th>
+                        <th class="testcase-status-table-header">TestCase ID</th>
+                        <th class="testcase-status-table-header">Description</th>
+                        <th class="testcase-status-table-header">Start Time</th>
+                        <th class="testcase-status-table-header">End Time</th>
+                        <th class="testcase-status-table-header">Status</th>
+                        <th class="testcase-status-table-header">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="testcase-status-table-cell">1</td>
+                        <td class="testcase-status-table-cell">TC01</td>
+                        <td class="testcase-status-table-cell">Valid login with valid password and username</td>
+                        <td class="testcase-status-table-cell">10:00 AM</td>
+                        <td class="testcase-status-table-cell">10:12 AM</td>
+                        <td class="testcase-status-table-cell" style="color: #00ff00ab;">PASSED</td>
+                        <td class="testcase-status-table-cell">-</td>
+                    </tr>
+                    <tr>
+                        <td class="testcase-status-table-cell">2</td>
+                        <td class="testcase-status-table-cell">TC02</td>
+                        <td class="testcase-status-table-cell">Invalid login with valid username and invalid password</td>
+                        <td class="testcase-status-table-cell">10:13 AM</td>
+                        <td class="testcase-status-table-cell">10:20 AM</td>
+                        <td class="testcase-status-table-cell" style="color: orange;">SKIPPED</td>
+                        <td class="testcase-status-table-cell">Data Missing</td>
+                    </tr>
+                    <tr>
+                        <td class="testcase-status-table-cell">3</td>
+                        <td class="testcase-status-table-cell">TC03</td>
+                        <td class="testcase-status-table-cell">Invalid login with valid password and invalid username</td>
+                        <td class="testcase-status-table-cell">10:21 AM</td>
+                        <td class="testcase-status-table-cell">10:33 AM</td>
+                        <td class="testcase-status-table-cell" style="color: #00ff00ab;">PASSED</td>
+                        <td class="testcase-status-table-cell">-</td>
+                    </tr>
+                    <tr>
+                        <td class="testcase-status-table-cell">4</td>
+                        <td class="testcase-status-table-cell">TC04</td>
+                        <td class="testcase-status-table-cell">Invalid login with invalid password and username</td>
+                        <td class="testcase-status-table-cell">10:34 AM</td>
+                        <td class="testcase-status-table-cell">10:42 AM</td>
+                        <td class="testcase-status-table-cell" style="color: red;">FAILED</td>
+                        <td class="testcase-status-table-cell">Assertion Error</td>
+                    </tr>
+                    <tr>
+                        <td class="testcase-status-table-cell">5</td>
+                        <td class="testcase-status-table-cell">TC05</td>
+                        <td class="testcase-status-table-cell">Username and password field validation</td>
+                        <td class="testcase-status-table-cell">10:43 AM</td>
+                        <td class="testcase-status-table-cell">11:12 AM</td>
+                        <td class="testcase-status-table-cell" style="color: #00ff00ab;">PASSED</td>
+                        <td class="testcase-status-table-cell">-</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="content" id="configurations" style="display:none;">
+        <h2>Configurations</h2>
+        <div class="timestamp"> Generated on: 20-06-2024 12:34:43 AM</div>
+        <div class="project-config-container">
+            <div class="configurations">
+                <div class="config-data">
+                    <h2 style="text-decoration: underline;">Project Configurations</h2>
+                    <div style="margin-top: 2em;">
+                        <h3>Application Name: IDOCX Redevelopment v2.9.3</h3>
+                        <h3>Browser: Chrome v125.98.123</h3>
+                        <h3>Aplication URL: https://google.com</h3>
+                        <h3>Environment: Testing</h3>
+                        <h3>Data Source: Excel</h3>
+                        <h3>Video Recording: No</h3>
+                        <h3>Parallel Execution: No</h3>
+                    </div>
+                </div>
+                
+                <div class="config-data">
+                    <h2 style="text-decoration: underline;">Report Configurations</h2>
+                    <div style="margin-top: 2em;">
+                        <h3>Report Path: C:\User\Dekstop</h3>
+                        <h3>Generate Reports: Yes</h3>
+                        <h3>Update Historic Report: Yes</h3>
+                        <h3>Receive Report via Email: Yes</h3>
+                        <h3>Email IDs: deekshithpoojary355@gmail.com</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" id="testcases" style="display:none;">
+        <h2>Test Cases Details</h2>
+        <div class="timestamp"> Generated on: 20-06-2024 12:34:43 AM</div>
+        <p>Details about the test cases...</p>
+    </div>
+
+    <div class="content" id="graphs" style="display:none;">
+        <h2>Graphs and Statistics</h2>
+        <div class="timestamp"> Generated on: 20-06-2024 12:34:43 AM</div>
+        <p>Graphs and statistical data...</p>
+    </div>
+
+    <script>
+        function showContent(section) {
+            var sections = document.getElementsByClassName('content');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = 'none';
+            }
+            document.getElementById(section).style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,196 @@
+body {
+  margin: 0;
+  font-family: "Lucida Console", "Courier New", monospace;
+  background:  hsla(0, 1%, 17%, 0.711);
+  color: rgb(243, 240, 240);
+}
+
+.separator {
+    border: 1.5px solid orange;
+    height: 0.1px;
+    background-color: orange;
+    border-radius: 5px;
+    width: 220px;
+    margin-top: -1em;
+}
+
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  /* background-color: #f1f1f1; */
+  background:  hsla(0, 1%, 17%, 0.711);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 16px;
+  text-decoration: none;
+}
+ 
+.sidebar a.active {
+  background-color: hsla(0, 1%, 17%, 0.711);
+  /* color: black; */
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #7e7c7b;
+  /* color: white; */
+}
+
+div.content {
+  margin-top: 70px;
+  margin-left: 200px;
+  padding: 1px 16px;
+}
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+
+ /* Nav Bar Styles */
+ .navbar {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    height: 70px;
+    background-color: #7e7c7b;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+    position: fixed; /* Make the navbar fixed */
+    top: 0; /* Position it at the top */
+    width: 100%; /* Make it span the full width */
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.navbar-title {
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 15px;
+    margin-left: 17px;
+}
+
+.navbar-menu {
+    list-style-type: none;
+    display: flex;
+    gap: 7px;
+}
+
+.navbar-menu li {
+    margin-right: 10px;
+}
+
+.navbar-menu li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.table1-container,
+.table2-container{
+    border: 1px solid #7d7b7b;
+    border-radius: 15px;
+    background-color: #333333;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+    text-align: center;
+}
+
+.table2-container{
+    /* height: 600px;  */
+    min-height: 400px;
+    max-height: 600px;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.table2-container::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+#testcase-status-table tr:hover {
+    background-color: rgba(84, 82, 82, 0.383);
+}
+
+#testcase-status-table,
+.testcase-status-table-header,
+.testcase-status-table-cell{
+    border-collapse: collapse;
+    padding: 18px;
+    margin: 0 auto;
+    color: white;
+}
+
+#overall-summary-table,
+.overall-summary-table-header,
+.overall-summary-table-cell{
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.overall-summary-table-header {
+    width: 25%;
+}
+
+
+
+/* .overall-summary-table-header,
+.overall-summary-table-cell,
+.testcase-status-table-header,
+.testcase-status-table-cell {
+    border-right: 1px solid rgba(141, 141, 141, 0.898);
+}
+
+td:last-child, th:last-child {
+    border-right: none;
+  } */
+
+.overall-summary-table-header{
+    font-size: 50px;
+}
+
+.overall-summary-table-cell{
+    font-size: 25px;
+}
+
+
+.configurations {
+    display: flex;
+    flex-direction: column;
+    gap: 55px;  
+    /* padding: 20px; */
+}
+
+.config-data {
+    border: 1px solid #7d7b7b;
+    border-radius: 15px;
+    background-color: #333333;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+    padding: 20px;
+}
+
+.timestamp {
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  color: #ffffff;
+  font-size: 14px;
+}
