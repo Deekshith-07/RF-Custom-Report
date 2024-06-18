@@ -5,21 +5,11 @@ body {
   color: rgb(243, 240, 240);
 }
 
-.separator {
-    border: 1.5px solid orange;
-    height: 0.1px;
-    background-color: orange;
-    border-radius: 5px;
-    width: 220px;
-    margin-top: -1em;
-}
-
 
 .sidebar {
   margin: 0;
   padding: 0;
   width: 200px;
-  /* background-color: #f1f1f1; */
   background:  hsla(0, 1%, 17%, 0.711);
   position: fixed;
   height: 100%;
@@ -32,16 +22,10 @@ body {
   padding: 16px;
   text-decoration: none;
 }
- 
-.sidebar a.active {
-  background-color: hsla(0, 1%, 17%, 0.711);
-  /* color: black; */
-}
 
-.sidebar a:hover:not(.active) {
-  background-color: #7e7c7b;
-  /* color: white; */
-}
+.sidebar a.active { background-color: hsla(0, 1%, 17%, 0.711); }
+
+.sidebar a:hover:not(.active) { background-color: #7e7c7b; }
 
 div.content {
   margin-top: 70px;
@@ -69,13 +53,13 @@ div.content {
  /* Nav Bar Styles */
  .navbar {
     display: flex;
-    align-items: center; 
+    align-items: center;
     justify-content: center;
     height: 70px;
     background-color: #7e7c7b;
     /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     position: fixed; /* Make the navbar fixed */
     top: 0; /* Position it at the top */
     width: 100%; /* Make it span the full width */
@@ -85,7 +69,7 @@ div.content {
 .navbar-title {
     font-weight: bold;
     color: #ffffff;
-    font-size: 15px;
+    font-size: 20px;
     margin-left: 17px;
 }
 
@@ -95,26 +79,30 @@ div.content {
     gap: 7px;
 }
 
-.navbar-menu li {
-    margin-right: 10px;
-}
+.navbar-menu li { margin-right: 10px; }
 
 .navbar-menu li a {
     color: #ffffff;
     text-decoration: none;
 }
 
-.table1-container,
-.table2-container{
+.table-container {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.first-container,
+.second-container{
     border: 1px solid #7d7b7b;
     border-radius: 15px;
     background-color: #333333;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     text-align: center;
+    width: 100%;
 }
 
-.table2-container{
-    /* height: 600px;  */
+.second-container{
     min-height: 400px;
     max-height: 600px;
     overflow-y: scroll; /* Enable vertical scrolling */
@@ -122,13 +110,9 @@ div.content {
     scrollbar-width: none;  /* Firefox */
 }
 
-.table2-container::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
-}
+.second-container::-webkit-scrollbar { display: none; } /* Safari and Chrome */
 
-#testcase-status-table tr:hover {
-    background-color: rgba(84, 82, 82, 0.383);
-}
+#testcase-status-table tr:hover { background-color: rgba(84, 82, 82, 0.383); }
 
 #testcase-status-table,
 .testcase-status-table-header,
@@ -144,46 +128,32 @@ div.content {
 .overall-summary-table-cell{
     border-collapse: collapse;
     margin: 0 auto;
+    padding: 5px;
+
 }
+
+.overall-summary-table-header { width: 25%; }
+
 
 .overall-summary-table-header {
-    width: 25%;
+  font-size: 40px;
+  font-family: "Varela Round";
 }
 
-
-
-/* .overall-summary-table-header,
-.overall-summary-table-cell,
-.testcase-status-table-header,
-.testcase-status-table-cell {
-    border-right: 1px solid rgba(141, 141, 141, 0.898);
-}
-
-td:last-child, th:last-child {
-    border-right: none;
-  } */
-
-.overall-summary-table-header{
-    font-size: 50px;
-}
-
-.overall-summary-table-cell{
-    font-size: 25px;
-}
+.overall-summary-table-cell{ font-size: 25px; }
 
 
 .configurations {
     display: flex;
     flex-direction: column;
-    gap: 55px;  
-    /* padding: 20px; */
+    gap: 20px;
 }
 
 .config-data {
     border: 1px solid #7d7b7b;
     border-radius: 15px;
     background-color: #333333;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding: 20px;
 }
 

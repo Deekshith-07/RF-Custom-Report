@@ -16,20 +16,21 @@
     </div>
 
     <div class="sidebar">
-        <a class="active" href="#home" onclick="showContent('overview')">Overview</a>
-        <a href="#testcases" onclick="showContent('testcases')">Test Cases</a>
-        <a href="#config" onclick="showContent('configurations')">Configurations</a>
-        <a href="#graphs" onclick="showContent('graphs')">Graphs</a>
+        <a class="active" href="#overview" onclick="showContent('overview'); return false;">Overview</a>
+        <a href="#testcases" onclick="showContent('testcases'); return false;">Test Cases</a>
+        <a href="#configurations" onclick="showContent('configurations'); return false;">Configurations</a>
+        <a href="#graphs" onclick="showContent('graphs'); return false;">Graphs</a>
     </div>
 
     <div class="content" id="overview">
         <h2>Test Execution Summary</h2>
         <div class="timestamp"> Generated on: 20-06-2024 12:34:43 AM</div>
-        <div class="table1-container">
+        <div class="table-container">
+        <div class="first-container">
             <table id="overall-summary-table" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th class="overall-summary-table-header" style="color:#00ff00ab">3</th>
+                        <th class="overall-summary-table-header" style="color:#00ff00ab;">3</th>
                         <th class="overall-summary-table-header" style="color:red">1</th>
                         <th class="overall-summary-table-header" style="color:orange">1</th>
                         <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">5</th>
@@ -45,9 +46,28 @@
                 </tbody>
             </table>
         </div>
+        <div class="first-container">
+            <table id="overall-summary-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="overall-summary-table-header" style="color:#00ff00ab;">3</th>
+                        <th class="overall-summary-table-header" style="color:red">0</th>
+                        <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="overall-summary-table-cell" style="color:#00ff00ab">Assertion Fail</td>
+                        <td class="overall-summary-table-cell" style="color:red">Script Fail</td>
+                        <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total Fail</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
         <br><br>
         <h2>Test Execution Results</h2>
-        <div class="table2-container">
+        <div class="second-container">
             <table id="testcase-status-table" style="width: 100%;">
                 <thead style="background-color: rgba(84, 82, 82, 0.383);">
                     <tr>
@@ -100,13 +120,21 @@
                     <tr>
                         <td class="testcase-status-table-cell">5</td>
                         <td class="testcase-status-table-cell">TC05</td>
-                        <td class="testcase-status-table-cell">Username and password field validation</td>
+                        <td class="testcase-status-table-cell">Username field validation</td>
                         <td class="testcase-status-table-cell">10:43 AM</td>
                         <td class="testcase-status-table-cell">11:12 AM</td>
                         <td class="testcase-status-table-cell" style="color: #00ff00ab;">PASSED</td>
                         <td class="testcase-status-table-cell">-</td>
                     </tr>
-                    
+                    <tr>
+                        <td class="testcase-status-table-cell">6</td>
+                        <td class="testcase-status-table-cell">TC06</td>
+                        <td class="testcase-status-table-cell">Password field validation</td>
+                        <td class="testcase-status-table-cell">11:15 AM</td>
+                        <td class="testcase-status-table-cell">11:32 AM</td>
+                        <td class="testcase-status-table-cell" style="color: #00ff00ab;">PASSED</td>
+                        <td class="testcase-status-table-cell">-</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -120,24 +148,24 @@
                 <div class="config-data">
                     <h2 style="text-decoration: underline;">Project Configurations</h2>
                     <div style="margin-top: 2em;">
-                        <h3>Application Name: IDOCX Redevelopment v2.9.3</h3>
-                        <h3>Browser: Chrome v125.98.123</h3>
-                        <h3>Aplication URL: https://google.com</h3>
-                        <h3>Environment: Testing</h3>
-                        <h3>Data Source: Excel</h3>
-                        <h3>Video Recording: No</h3>
-                        <h3>Parallel Execution: No</h3>
+                        <h4>Application Name: IDOCX Redevelopment v2.9.3</h4>
+                        <h4>Browser: Chrome v125.98.123</h4>
+                        <h4>Aplication URL: https://google.com</h4>
+                        <h4>Environment: Testing</h4>
+                        <h4>Data Source: Excel</h4>
+                        <h4>Video Recording: No</h4>
+                        <h4>Parallel Execution: No</h4>
                     </div>
                 </div>
-                
+
                 <div class="config-data">
                     <h2 style="text-decoration: underline;">Report Configurations</h2>
                     <div style="margin-top: 2em;">
-                        <h3>Report Path: C:\User\Dekstop</h3>
-                        <h3>Generate Reports: Yes</h3>
-                        <h3>Update Historic Report: Yes</h3>
-                        <h3>Receive Report via Email: Yes</h3>
-                        <h3>Email IDs: deekshithpoojary355@gmail.com</h3>
+                        <h4>Report Path: C:\User\Dekstop</h4>
+                        <h4>Generate Reports: Yes</h4>
+                        <h4>Update Historic Report: Yes</h4>
+                        <h4>Receive Report via Email: Yes</h4>
+                        <h4>Email IDs: deekshithpoojary355@gmail.com, iborg.automation@gmail.com</h4    >
                     </div>
                 </div>
             </div>
@@ -158,11 +186,26 @@
 
     <script>
         function showContent(section) {
+            // Hide all sections
             var sections = document.getElementsByClassName('content');
             for (var i = 0; i < sections.length; i++) {
                 sections[i].style.display = 'none';
             }
+
+            // Show the selected section
             document.getElementById(section).style.display = 'block';
+
+            // Remove the 'active' class from all sidebar links
+            var sidebarLinks = document.querySelectorAll('.sidebar a');
+            for (var i = 0; i < sidebarLinks.length; i++) {
+                sidebarLinks[i].classList.remove('active');
+            }
+
+            // Add the 'active' class to the clicked sidebar link
+            var activeLink = document.querySelector('.sidebar a[href="#' + section + '"]');
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
         }
     </script>
 </body>
