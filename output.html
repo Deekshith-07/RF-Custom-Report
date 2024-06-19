@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="statistics.png" type="image/x-icon">
+  <title>Test Report</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Lucida Console", "Courier New", monospace;
+      background: hsla(0, 1%, 17%, 0.711);
+      color: rgb(243, 240, 240);
+    }
+
+
+    .sidebar {
+      margin: 0;
+      padding: 0;
+      width: 200px;
+      background: hsla(0, 1%, 17%, 0.711);
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 16px;
+      text-decoration: none;
+    }
+
+    .sidebar a.active {
+      background-color: hsla(0, 1%, 17%, 0.711);
+    }
+
+    .sidebar a:hover:not(.active) {
+      background-color: #7e7c7b;
+    }
+
+    div.content {
+      margin-top: 70px;
+      margin-left: 200px;
+      padding: 1px 16px;
+    }
+
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .sidebar a {
+        float: left;
+      }
+
+      div.content {
+        margin-left: 0;
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }
+    }
+
+    /* Nav Bar Styles */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+      background-color: #7e7c7b;
+      /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      position: fixed;
+      /* Make the navbar fixed */
+      top: 0;
+      /* Position it at the top */
+      width: 100%;
+      /* Make it span the full width */
+      z-index: 1000;
+      /* Ensure it stays above other content */
+    }
+
+    .navbar-title {
+      font-weight: bold;
+      color: #ffffff;
+      font-size: 20px;
+      margin-left: 17px;
+    }
+
+    .navbar-menu {
+      list-style-type: none;
+      display: flex;
+      gap: 7px;
+    }
+
+    .navbar-menu li {
+      margin-right: 10px;
+    }
+
+    .navbar-menu li a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .table-container {
+      display: flex;
+      flex-direction: row;
+      gap: 50px;
+    }
+
+    .first-container,
+    .second-container {
+      border: 1px solid #7d7b7b;
+      border-radius: 15px;
+      background-color: #333333;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      text-align: center;
+      width: 100%;
+    }
+
+    .second-container {
+      /* min-height: 400px; */
+      max-height: 600px;
+      overflow-y: scroll;
+      /* Enable vertical scrolling */
+      -ms-overflow-style: none;
+      /* Internet Explorer 10+ */
+      scrollbar-width: none;
+      /* Firefox */
+    }
+
+    .second-container::-webkit-scrollbar {
+      display: none;
+    }
+
+
+    #testcase-status-table th,
+    #testcase-status-table tr:hover {
+      background-color: rgba(84, 82, 82, 0.383);
+      box-shadow: 0 4px 8px 0 rgba(53, 53, 53, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    #testcase-status-table td {
+      box-shadow: 0 4px 8px 0 rgba(41, 41, 41, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      border-radius: 15px;
+    }
+
+
+    #testcase-status-table,
+    .testcase-status-table-header,
+    .testcase-status-table-cell {
+      border-collapse: collapse;
+      padding: 18px;
+      margin: 0 auto;
+      color: white;
+    }
+
+    #overall-summary-table,
+    .overall-summary-table-header,
+    .overall-summary-table-cell {
+      border-collapse: collapse;
+      margin: 0 auto;
+      padding: 5px;
+
+    }
+
+    .overall-summary-table-header {
+      width: 25%;
+    }
+
+
+    .overall-summary-table-header {
+      font-size: 40px;
+      font-family: "Varela Round";
+    }
+
+    .overall-summary-table-cell {
+      font-size: 25px;
+    }
+
+
+    .configurations {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .config-data {
+      border: 1px solid #7d7b7b;
+      border-radius: 15px;
+      background-color: #333333;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      padding: 20px;
+    }
+
+    .timestamp {
+      position: absolute;
+      top: 80px;
+      right: 10px;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    #testcase-search {
+      width: 30%;
+      font-size: 15px;
+      padding: 12px 20px 12px 20px;
+      border: 1px solid #6464646b;
+      border-radius: 5px;
+      margin-bottom: 12px;
+      background: hsla(0, 1%, 17%, 0.711);
+      color: rgb(132, 130, 130);
+      font-family: "Lucida Console", "Courier New", monospace;
+      margin-top: 12px;
+      margin-right: 66%;
+    }
+
+    .testcase-container {
+      border: 1px solid #7d7b7b;
+      border-radius: 15px;
+      background-color: #333333;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      text-align: center;
+      width: 100%;
+
+    }
+
+    #testcase-table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 15px;
+      color: white;
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    #testcase-table th,
+    #testcase-table td {
+      text-align: center;
+      padding: 15px;
+      max-width: 380px;
+    }
+
+    #testcase-table td {
+      border-radius: 15px;
+      box-shadow: 0 4px 8px 0 rgba(41, 41, 41, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    #testcase-table th,
+    #testcase-table tr:hover {
+      background-color: rgba(84, 82, 82, 0.383);
+      box-shadow: 0 4px 8px 0 rgba(53, 53, 53, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="navbar-title">
+      <h3>IBORG REDEVELOPMENT TEST REPORT</h3>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <a class="active" href="#overview" onclick="showContent('overview'); return false;">Overview</a>
+    <a href="#testcases" onclick="showContent('testcases'); return false;">Test Cases</a>
+    <a href="#configurations" onclick="showContent('configurations'); return false;">Configurations</a>
+    <a href="#graphs" onclick="showContent('graphs'); return false;">Graphs</a>
+  </div>
+  <div class="timestamp">Generated on 06-19-2024 07:11:17 PM</div>
+  <div class="content" id="overview">
+    <h2>Test Execution Summary</h2>
+    <div class="table-container">
+      <div class="first-container">
+        <table id="overall-summary-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th class="overall-summary-table-header" style="color:#00ff00ab;">3</th>
+              <th class="overall-summary-table-header" style="color:red">1</th>
+              <th class="overall-summary-table-header" style="color:orange">1</th>
+              <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">4</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="overall-summary-table-cell" style="color:#00ff00ab">Passed</td>
+              <td class="overall-summary-table-cell" style="color:red">Failed</td>
+              <td class="overall-summary-table-cell" style="color:orange">Skipped</td>
+              <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="first-container">
+        <table id="overall-summary-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th class="overall-summary-table-header" style="color:#00ff00ab;">3</th>
+              <th class="overall-summary-table-header" style="color:red">1</th>
+              <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">4</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="overall-summary-table-cell" style="color:#00ff00ab">Assertion Fail</td>
+              <td class="overall-summary-table-cell" style="color:red">Script Fail</td>
+              <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total Fail</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br><br>
+    <h2>Test Execution Results</h2>
+    <div class="second-container">
+      <input type="text" id="testcase-search" onkeyup="searchFunction('testcase-search','testcase-status-table')"
+        placeholder="Search for TestCase IDs.." title="Type in a testcase id">
+      <table id="testcase-status-table" style="width: 100%;">
+        <thead>
+          <tr>
+            <th class="testcase-status-table-header">Sr. No</th>
+            <th class="testcase-status-table-header">Test Case ID</th>
+            <th class="testcase-status-table-header">Description</th>
+            <th class="testcase-status-table-header">Start Time</th>
+            <th class="testcase-status-table-header">Duration</th>
+            <th class="testcase-status-table-header">Status</th>
+            <th class="testcase-status-table-header">Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td class="testcase-status-table-cell"></td>
+            <td class="testcase-status-table-cell">TC01</td>
+            <td class="testcase-status-table-cell">Check basic web keywords on Orange HRM site1</td>
+            <td class="testcase-status-table-cell">06:51:21 PM</td>
+            <td class="testcase-status-table-cell">28 sec</td>
+            <!-- <td class="testcase-status-table-cell" style="color: #00ff00ab;">FAILED</td> -->
+            
+              <td class="testcase-status-table-cell" style="color: red;">FAILED</td>
+            
+            <td class="testcase-status-table-cell">Check point got failed since excepcted : 'Username Admin1' and actual : 'Username Admin' values are not matched,</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content" id="configurations" style="display:none;">
+    <h2>Configurations</h2>
+    <div class="project-config-container">
+      <div class="configurations">
+        <div class="config-data">
+          <h2 style="text-decoration: underline;">Project Configurations</h2>
+          <div style="margin-top: 2em;">
+            <h4>Application Name: IBORG REDEVELOPMENT</h4>
+            <h4>Browser: Chrome v125.23.43</h4>
+            <h4>Aplication URL: https://google.com/h4>
+            <h4>Environment: Testing</h4>
+            <h4>Data Source: Database</h4>
+            <h4>Video Recording: Yes</h4>
+            <h4>Parallel Execution: Yes</h4>
+          </div>
+        </div>
+
+        <div class="config-data">
+          <h2 style="text-decoration: underline;">Report Configurations</h2>
+          <div style="margin-top: 2em;">
+            <h4>Report Path: C:\Users\Desktop\Reports</h4>
+            <h4>Generate Reports: Yes</h4>
+            <h4>Update Historic Report: Yes</h4>
+            <h4>Receive Report via Email: Yes</h4>
+            <h4>Email IDs: deekshith.p@sirmaindia.com, swaraj.m@sirmaindia.com</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content" id="testcases" style="display:none;">
+    <h2>Test Cases Details</h2>
+    <div class="testcase-container">
+      <input type="text" id="testcase-search" onkeyup="searchFunction('testcase-search','testcase-table')"
+        placeholder="Search for TestCase IDs.." title="Type in a testcase id">
+      <table id="testcase-table">
+        <thead class="header">
+          <th>Sr. No.</th>
+          <th>Test Case ID</th>
+          <th>Step Name</th>
+          <th>Start Time</th>
+          <th>Duration</th>
+          <th>Status</th>
+          <th>Reason</th>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>1</td>
+            <td>TC01</td>
+            <td>Navigate to URL</td>
+            <td>06:51:22 PM</td>
+            <td>11 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>2</td>
+            <td>TC01</td>
+            <td>Verify Page Title</td>
+            <td>06:51:33 PM</td>
+            <td>0 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>3</td>
+            <td>TC01</td>
+            <td>Reload</td>
+            <td>06:51:33 PM</td>
+            <td>1 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>4</td>
+            <td>TC01</td>
+            <td>Wait for Element - LoginPageHeader</td>
+            <td>06:51:34 PM</td>
+            <td>1 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>5</td>
+            <td>TC01</td>
+            <td>Verify Text - UsernameText</td>
+            <td>06:51:35 PM</td>
+            <td>2 sec</td>
+            
+              <td style="color: red;">FAILED</td>
+            
+
+            <td>Check point got failed since excepcted : 'Username Admin1' and actual : 'Username Admin' values are not matched.</td>
+          </tr>
+          
+          <tr>
+            <td>6</td>
+            <td>TC01</td>
+            <td>Verify Text Contains - PasswordText</td>
+            <td>06:51:38 PM</td>
+            <td>0 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>7</td>
+            <td>TC01</td>
+            <td>Verify Text Starts With - UsernameText</td>
+            <td>06:51:38 PM</td>
+            <td>0 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>8</td>
+            <td>TC01</td>
+            <td>Verify Text Ends With - PasswordText</td>
+            <td>06:51:38 PM</td>
+            <td>1 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>9</td>
+            <td>TC01</td>
+            <td>Input Data - UsernameField</td>
+            <td>06:51:39 PM</td>
+            <td>1 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>10</td>
+            <td>TC01</td>
+            <td>Input Data - PasswordField</td>
+            <td>06:51:40 PM</td>
+            <td>0 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>11</td>
+            <td>TC01</td>
+            <td>Clear Text Field - UsernameField</td>
+            <td>06:51:40 PM</td>
+            <td>2 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>12</td>
+            <td>TC01</td>
+            <td>Input Data - UsernameField</td>
+            <td>06:51:42 PM</td>
+            <td>1 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>13</td>
+            <td>TC01</td>
+            <td>Click - LoginButton</td>
+            <td>06:51:43 PM</td>
+            <td>2 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>14</td>
+            <td>TC01</td>
+            <td>Element Should Be Present - Dashboard</td>
+            <td>06:51:21 PM</td>
+            <td>25 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+          <tr>
+            <td>15</td>
+            <td>TC01</td>
+            <td>Browser Close</td>
+            <td>06:51:46 PM</td>
+            <td>4 sec</td>
+            
+              <td style="color: #00ff00ab;">PASSED</td>
+            
+
+            <td></td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content" id="graphs" style="display:none;">
+    <h2>Graphs and Statistics</h2>
+    <p>Graphs and statistical data...</p>
+  </div>
+
+  <script>
+
+    function showContent(section) {
+      // Hide all sections
+      var sections = document.getElementsByClassName('content');
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+      }
+
+      // Show the selected section
+      document.getElementById(section).style.display = 'block';
+
+      // Remove the 'active' class from all sidebar links
+      var sidebarLinks = document.querySelectorAll('.sidebar a');
+      for (var i = 0; i < sidebarLinks.length; i++) {
+        sidebarLinks[i].classList.remove('active');
+      }
+
+      // Add the 'active' class to the clicked sidebar link
+      var activeLink = document.querySelector('.sidebar a[href="#' + section + '"]');
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+    }
+
+
+    function searchFunction(inputId, tableId) {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById(inputId);
+      filter = input.value.toUpperCase();
+      table = document.getElementById(tableId);
+      tr = table.getElementsByTagName("tr");
+
+      for (i = 1; i < tr.length; i++) {  // Start from 1 to skip the header row
+        td = tr[i].getElementsByTagName("td")[1];  // Get the second column (index 1)
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+
+  </script>
+</body>
+
+</html>
