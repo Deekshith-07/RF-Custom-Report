@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="statistics.png" type="image/x-icon">
     <title>Test Report</title>
 </head>
 
@@ -26,50 +27,52 @@
         <h2>Test Execution Summary</h2>
         <div class="timestamp"> Generated on: 20-06-2024 12:34:43 AM</div>
         <div class="table-container">
-        <div class="first-container">
-            <table id="overall-summary-table" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th class="overall-summary-table-header" style="color:#00ff00ab;">3</th>
-                        <th class="overall-summary-table-header" style="color:red">1</th>
-                        <th class="overall-summary-table-header" style="color:orange">1</th>
-                        <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">5</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="overall-summary-table-cell" style="color:#00ff00ab">Passed</td>
-                        <td class="overall-summary-table-cell" style="color:red">Failed</td>
-                        <td class="overall-summary-table-cell" style="color:orange">Skipped</td>
-                        <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="first-container">
-            <table id="overall-summary-table" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th class="overall-summary-table-header" style="color:#00ff00ab;">3</th>
-                        <th class="overall-summary-table-header" style="color:red">0</th>
-                        <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">3</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="overall-summary-table-cell" style="color:#00ff00ab">Assertion Fail</td>
-                        <td class="overall-summary-table-cell" style="color:red">Script Fail</td>
-                        <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total Fail</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <div class="first-container">
+                <table id="overall-summary-table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="overall-summary-table-header" style="color:#00ff00ab;">3</th>
+                            <th class="overall-summary-table-header" style="color:red">1</th>
+                            <th class="overall-summary-table-header" style="color:orange">1</th>
+                            <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">5</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="overall-summary-table-cell" style="color:#00ff00ab">Passed</td>
+                            <td class="overall-summary-table-cell" style="color:red">Failed</td>
+                            <td class="overall-summary-table-cell" style="color:orange">Skipped</td>
+                            <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="first-container">
+                <table id="overall-summary-table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="overall-summary-table-header" style="color:#00ff00ab;">3</th>
+                            <th class="overall-summary-table-header" style="color:red">0</th>
+                            <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="overall-summary-table-cell" style="color:#00ff00ab">Assertion Fail</td>
+                            <td class="overall-summary-table-cell" style="color:red">Script Fail</td>
+                            <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total Fail</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <br><br>
         <h2>Test Execution Results</h2>
         <div class="second-container">
+            <input type="text" id="testcase-search" onkeyup="searchFunction('testcase-search','testcase-status-table')"
+                placeholder="Search for TestCase IDs.." title="Type in a testcase id">
             <table id="testcase-status-table" style="width: 100%;">
-                <thead style="background-color: rgba(84, 82, 82, 0.383);">
+                <thead>
                     <tr>
                         <th class="testcase-status-table-header">Sr. No</th>
                         <th class="testcase-status-table-header">TestCase ID</th>
@@ -93,7 +96,8 @@
                     <tr>
                         <td class="testcase-status-table-cell">2</td>
                         <td class="testcase-status-table-cell">TC02</td>
-                        <td class="testcase-status-table-cell">Invalid login with valid username and invalid password</td>
+                        <td class="testcase-status-table-cell">Invalid login with valid username and invalid password
+                        </td>
                         <td class="testcase-status-table-cell">10:13 AM</td>
                         <td class="testcase-status-table-cell">10:20 AM</td>
                         <td class="testcase-status-table-cell" style="color: orange;">SKIPPED</td>
@@ -102,7 +106,8 @@
                     <tr>
                         <td class="testcase-status-table-cell">3</td>
                         <td class="testcase-status-table-cell">TC03</td>
-                        <td class="testcase-status-table-cell">Invalid login with valid password and invalid username</td>
+                        <td class="testcase-status-table-cell">Invalid login with valid password and invalid username
+                        </td>
                         <td class="testcase-status-table-cell">10:21 AM</td>
                         <td class="testcase-status-table-cell">10:33 AM</td>
                         <td class="testcase-status-table-cell" style="color: #00ff00ab;">PASSED</td>
@@ -165,7 +170,7 @@
                         <h4>Generate Reports: Yes</h4>
                         <h4>Update Historic Report: Yes</h4>
                         <h4>Receive Report via Email: Yes</h4>
-                        <h4>Email IDs: deekshithpoojary355@gmail.com, iborg.automation@gmail.com</h4    >
+                        <h4>Email IDs: deekshithpoojary355@gmail.com, iborg.automation@gmail.com</h4>
                     </div>
                 </div>
             </div>
@@ -175,7 +180,94 @@
     <div class="content" id="testcases" style="display:none;">
         <h2>Test Cases Details</h2>
         <div class="timestamp"> Generated on: 20-06-2024 12:34:43 AM</div>
-        <p>Details about the test cases...</p>
+        <div class="testcase-container">
+            <input type="text" id="testcase-search" onkeyup="searchFunction('testcase-search','testcase-table')"
+                placeholder="Search for TestCase IDs.." title="Type in a testcase id">
+            <table id="testcase-table">
+                <thead class="header">
+                    <th>Sr. No.</th>
+                    <th>Test Case ID</th>
+                    <th>Description</th>
+                    <th>Step Name</th>
+                    <th>Start Time</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>TC01</td>
+                        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+                        <td>Navigate to URL</td>
+                        <td>10:34:21 AM</td>
+                        <td>5s</td>
+                        <td style="color: #00ff00ab;">PASS</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>TC01</td>
+                        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+                        <td>Verify Page Title</td>
+                        <td>10:35:45 AM</td>
+                        <td>3s</td>
+                        <td style="color: red;">FAIL</td>
+                        <td>Title mismatch</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>TC01</td>
+                        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+                        <td>Verify text</td>
+                        <td>10:36:30 AM</td>
+                        <td>7s</td>
+                        <td style="color: #00ff00ab;">PASS</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>TC01</td>
+                        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+                        <td>Click</td>
+                        <td>10:37:00 AM</td>
+                        <td>4s</td>
+                        <td style="color: red;">FAIL</td>
+                        <td>Button not visible</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>TC01</td>
+                        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+                        <td>Input Data</td>
+                        <td>10:38:10 AM</td>
+                        <td>6s</td>
+                        <td style="color: #00ff00ab;">PASS</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>TC02</td>
+                        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+                        <td>Navigate to URL</td>
+                        <td>10:34:21 AM</td>
+                        <td>5s</td>
+                        <td style="color: #00ff00ab;">PASS</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>TC02</td>
+                        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+                        <td>Verify Page Title</td>
+                        <td>10:35:45 AM</td>
+                        <td>3s</td>
+                        <td style="color: red;">FAIL</td>
+                        <td>Title mismatch</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="content" id="graphs" style="display:none;">
@@ -184,30 +276,7 @@
         <p>Graphs and statistical data...</p>
     </div>
 
-    <script>
-        function showContent(section) {
-            // Hide all sections
-            var sections = document.getElementsByClassName('content');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = 'none';
-            }
-
-            // Show the selected section
-            document.getElementById(section).style.display = 'block';
-
-            // Remove the 'active' class from all sidebar links
-            var sidebarLinks = document.querySelectorAll('.sidebar a');
-            for (var i = 0; i < sidebarLinks.length; i++) {
-                sidebarLinks[i].classList.remove('active');
-            }
-
-            // Add the 'active' class to the clicked sidebar link
-            var activeLink = document.querySelector('.sidebar a[href="#' + section + '"]');
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>

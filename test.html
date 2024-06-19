@@ -1,279 +1,154 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-#myInput {
-  background-image: url('/css/searchicon.png');
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  width: 100%;
-  font-size: 16px;
-  padding: 12px 20px 12px 40px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-}
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
 
-#myTable {
-  border-collapse: collapse;
-  width: 100%;
-  /* border: 1px solid #ddd; */
-  font-size: 18px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            font-family: 'Courier New', Courier, monospace;
+        }
 
-#myTable th, #myTable td {
-  text-align: center;
-  padding: 12px;
-  border: 1px solid #ddd;
-}
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
 
-/* #myTable tr {
-  border-bottom: 1px solid #ddd;
-} */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-/* #myTable tr.header, #myTable tr:hover {
-  background-color: #f1f1f1;
-} */
-</style>
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Test Cases</h2>
+<h2>Test Cases Table 1</h2>
+<input type="text" id="testcase-search1" class="search-input" onkeyup="searchFunction('testcase-search1', 'testcase-table1')" placeholder="Search for Test Case ID..">
+<table id="testcase-table1">
+  <tr class="header">
+    <th>Serial No.</th>
+    <th>Test Case ID</th>
+    <th>Description</th>
+    <th>Steps</th>
+    <th>Step Name</th>
+    <th>Start Time</th>
+    <th>Duration</th>
+    <th>Status</th>
+    <th>Error Type</th>
+    <th>Reason</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>TC01</td>
+    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+    <td>Step-1</td>
+    <td>Navigate to URL</td>
+    <td>10:34:21 AM</td>
+    <td>5s</td>
+    <td>PASS</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>TC02</td>
+    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+    <td>Step-2</td>
+    <td>Verify Page Title</td>
+    <td>10:34:26 AM</td>
+    <td>3s</td>
+    <td>PASS</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <!-- More rows as needed -->
+</table>
 
-<input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names.." title="Type in a name">
-
-<table id="myTable">
-    <tr class="header">
-      <th>Serial No.</th>
-      <th>Test Case ID</th>
-      <th>Description</th>
-      <th>Steps</th>
-      <th>Step Name</th>
-      <th>Start Time</th>
-      <th>Duration</th>
-      <th>Status</th>
-      <th>Error Type</th>
-      <th>Reason</th>
-    </tr>
-    <tr>
-      <td rowspan="8">1</td>
-      <td rowspan="8">TC01</td>
-      <td rowspan="8">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
-      <td>Step-1</td>
-      <td>Navigate to URL</td>
-      <td>10:34:21 AM</td>
-      <td>5s</td>
-      <td>PASS</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <!-- <td>2</td>
-      <td>TC02</td>
-      <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-      <td>Step-2</td>
-      <td>Verify Page Title</td>
-      <td>10:35:45 AM</td>
-      <td>3s</td>
-      <td>FAIL</td>
-      <td>AssertionError</td>
-      <td>Title mismatch</td>
-    </tr>
-    <tr>
-      <!-- <td>3</td>
-      <td>TC03</td>
-      <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-      <td>Step-3</td>
-      <td>Verify text</td>
-      <td>10:36:30 AM</td>
-      <td>7s</td>
-      <td>PASS</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <!-- <td>4</td>
-      <td>TC04</td>
-      <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-      <td>Step-4</td>
-      <td>Click</td>
-      <td>10:37:00 AM</td>
-      <td>4s</td>
-      <td>FAIL</td>
-      <td>ElementNotVisible</td>
-      <td>Button not visible</td>
-    </tr>
-    <tr>
-      <!-- <td>5</td>
-      <td>TC05</td>
-      <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-      <td>Step-5</td>
-      <td>Input Data</td>
-      <td>10:38:10 AM</td>
-      <td>6s</td>
-      <td>PASS</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <!-- <td>6</td>
-      <td>TC06</td>
-      <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-      <td>Step-6</td>
-      <td>Element Should Be Present</td>
-      <td>10:39:22 AM</td>
-      <td>8s</td>
-      <td>FAIL</td>
-      <td>NoSuchElement</td>
-      <td>Element not found</td>
-    </tr>
-    <tr>
-      <!-- <td>7</td>
-      <td>TC07</td>
-      <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-      <td>Step-7</td>
-      <td>Connect To DB</td>
-      <td>10:40:45 AM</td>
-      <td>5s</td>
-      <td>PASS</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <!-- <td>8</td>
-      <td>TC08</td>
-      <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-      <td>Step-8</td>
-      <td>Table Should Exist</td>
-      <td>10:41:10 AM</td>
-      <td>9s</td>
-      <td>FAIL</td>
-      <td>SQLException</td>
-      <td>Table not found</td>
-    </tr>
-    <tr>
-        <td rowspan="8">2</td>
-        <td rowspan="8">TC02</td>
-        <td rowspan="8">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
-        <td>Step-1</td>
-        <td>Navigate to URL</td>
-        <td>10:34:21 AM</td>
-        <td>5s</td>
-        <td>PASS</td>
-        <td>N/A</td>
-        <td>N/A</td>
-      </tr>
-      <tr>
-        <!-- <td>2</td>
-        <td>TC02</td>
-        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-        <td>Step-2</td>
-        <td>Verify Page Title</td>
-        <td>10:35:45 AM</td>
-        <td>3s</td>
-        <td>FAIL</td>
-        <td>AssertionError</td>
-        <td>Title mismatch</td>
-      </tr>
-      <tr>
-        <!-- <td>3</td>
-        <td>TC03</td>
-        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-        <td>Step-3</td>
-        <td>Verify text</td>
-        <td>10:36:30 AM</td>
-        <td>7s</td>
-        <td>PASS</td>
-        <td>N/A</td>
-        <td>N/A</td>
-      </tr>
-      <tr>
-        <!-- <td>4</td>
-        <td>TC04</td>
-        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-        <td>Step-4</td>
-        <td>Click</td>
-        <td>10:37:00 AM</td>
-        <td>4s</td>
-        <td>FAIL</td>
-        <td>ElementNotVisible</td>
-        <td>Button not visible</td>
-      </tr>
-      <tr>
-        <!-- <td>5</td>
-        <td>TC05</td>
-        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-        <td>Step-5</td>
-        <td>Input Data</td>
-        <td>10:38:10 AM</td>
-        <td>6s</td>
-        <td>PASS</td>
-        <td>N/A</td>
-        <td>N/A</td>
-      </tr>
-      <tr>
-        <!-- <td>6</td>
-        <td>TC06</td>
-        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-        <td>Step-6</td>
-        <td>Element Should Be Present</td>
-        <td>10:39:22 AM</td>
-        <td>8s</td>
-        <td>FAIL</td>
-        <td>NoSuchElement</td>
-        <td>Element not found</td>
-      </tr>
-      <tr>
-        <!-- <td>7</td>
-        <td>TC07</td>
-        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-        <td>Step-7</td>
-        <td>Connect To DB</td>
-        <td>10:40:45 AM</td>
-        <td>5s</td>
-        <td>PASS</td>
-        <td>N/A</td>
-        <td>N/A</td>
-      </tr>
-      <tr>
-        <!-- <td>8</td>
-        <td>TC08</td>
-        <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td> -->
-        <td>Step-8</td>
-        <td>Table Should Exist</td>
-        <td>10:41:10 AM</td>
-        <td>9s</td>
-        <td>FAIL</td>
-        <td>SQLException</td>
-        <td>Table not found</td>
-      </tr>
-  </table>
+<h2>Test Cases Table 2</h2>
+<input type="text" id="testcase-search2" class="search-input" onkeyup="searchFunction('testcase-search2', 'testcase-table2')" placeholder="Search for Test Case ID..">
+<table id="testcase-table2">
+  <tr class="header">
+    <th>Serial No.</th>
+    <th>Test Case ID</th>
+    <th>Description</th>
+    <th>Steps</th>
+    <th>Step Name</th>
+    <th>Start Time</th>
+    <th>Duration</th>
+    <th>Status</th>
+    <th>Error Type</th>
+    <th>Reason</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>TC03</td>
+    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+    <td>Step-3</td>
+    <td>Verify text</td>
+    <td>10:34:29 AM</td>
+    <td>4s</td>
+    <td>PASS</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>TC04</td>
+    <td>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
+    <td>Step-4</td>
+    <td>Click</td>
+    <td>10:35:45 AM</td>
+    <td>4s</td>
+    <td>FAIL</td>
+    <td>ElementNotVisible</td>
+    <td>Button not visible</td>
+  </tr>
+  <!-- More rows as needed -->
+</table>
 
 <script>
-function searchFunction() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
+function searchFunction(inputId, tableId) {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById(inputId);
+    filter = input.value.toUpperCase();
+    table = document.getElementById(tableId);
+    tr = table.getElementsByTagName("tr");
 
-  for (i = 1; i < tr.length; i++) {  // Start from 1 to skip the header row
-    td = tr[i].getElementsByTagName("td")[1];  // Get the second column (index 1)
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
+    for (i = 1; i < tr.length; i++) {  // Start from 1 to skip the header row
+        td = tr[i].getElementsByTagName("td")[1];  // Get the second column (index 1)
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
     }
-  }
 }
-
 </script>
 
 </body>
