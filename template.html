@@ -143,47 +143,22 @@
     }
 
 
-    #testcase-status-table th,
-    #testcase-status-table tr:hover {
-      background-color: rgba(84, 82, 82, 0.383);
-      box-shadow: 0 4px 8px 0 rgba(53, 53, 53, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
-    #testcase-status-table td {
-      box-shadow: 0 4px 8px 0 rgba(41, 41, 41, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      border-radius: 15px;
-    }
-
-
-    #testcase-status-table,
-    .testcase-status-table-header,
-    .testcase-status-table-cell {
-      border-collapse: collapse;
-      padding: 18px;
-      margin: 0 auto;
-      color: white;
-    }
-
-    #overall-summary-table,
-    .overall-summary-table-header,
-    .overall-summary-table-cell {
+    #overall-summary-table th,
+    #overall-summary-table td {
       border-collapse: collapse;
       margin: 0 auto;
       padding: 5px;
 
     }
 
-    .overall-summary-table-header {
-      width: 25%;
-    }
 
-
-    .overall-summary-table-header {
+    #overall-summary-table th {
       font-size: 40px;
+      width: 25%;
       font-family: "Varela Round";
     }
 
-    .overall-summary-table-cell {
+    #overall-summary-table td {
       font-size: 25px;
     }
 
@@ -210,7 +185,7 @@
       font-size: 14px;
     }
 
-    #testcase-search {
+    .testcase-search {
       width: 30%;
       font-size: 15px;
       padding: 12px 20px 12px 20px;
@@ -234,7 +209,7 @@
 
     }
 
-    #testcase-table {
+    .testcase-info-table {
       border-collapse: collapse;
       width: 100%;
       font-size: 15px;
@@ -243,20 +218,20 @@
       padding: 10px;
     }
 
-    #testcase-table th,
-    #testcase-table td {
+    .testcase-info-table th,
+    .testcase-info-table td {
       text-align: center;
       padding: 15px;
       max-width: 380px;
     }
 
-    #testcase-table td {
+    .testcase-info-table td {
       border-radius: 15px;
       box-shadow: 0 4px 8px 0 rgba(41, 41, 41, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
-    #testcase-table th,
-    #testcase-table tr:hover {
+    .testcase-info-table th,
+    .testcase-info-table tr:hover {
       background-color: rgba(84, 82, 82, 0.383);
       box-shadow: 0 4px 8px 0 rgba(53, 53, 53, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
@@ -284,18 +259,18 @@
         <table id="overall-summary-table" style="width: 100%;">
           <thead>
             <tr>
-              <th class="overall-summary-table-header" style="color:#00ff00ab;">{{ total_passed_testcase_count }}</th>
-              <th class="overall-summary-table-header" style="color:red">{{ total_failed_testcase_count }}</th>
-              <th class="overall-summary-table-header" style="color:orange">{{ total_skipped_testcase_count }}</th>
-              <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">{{ total_testcase_count }}</th>
+              <th style="color:#00ff00ab;">{{ total_passed_testcase_count }}</th>
+              <th style="color:red">{{ total_failed_testcase_count }}</th>
+              <th style="color:orange">{{ total_skipped_testcase_count }}</th>
+              <th style="color:rgb(197, 197, 197)">{{ total_testcase_count }}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="overall-summary-table-cell" style="color:#00ff00ab">Passed</td>
-              <td class="overall-summary-table-cell" style="color:red">Failed</td>
-              <td class="overall-summary-table-cell" style="color:orange">Skipped</td>
-              <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total</td>
+              <td style="color:#00ff00ab">Passed</td>
+              <td style="color:red">Failed</td>
+              <td style="color:orange">Skipped</td>
+              <td style="color:rgb(197, 197, 197)">Total</td>
             </tr>
           </tbody>
         </table>
@@ -304,16 +279,16 @@
         <table id="overall-summary-table" style="width: 100%;">
           <thead>
             <tr>
-              <th class="overall-summary-table-header" style="color:#00ff00ab;">{{ total_assertion_fail_count }}</th>
-              <th class="overall-summary-table-header" style="color:red">{{ total_script_fail_count }}</th>
-              <th class="overall-summary-table-header" style="color:rgb(197, 197, 197)">{{ total_fail_count }}</th>
+              <th style="color:#00ff00ab;">{{ total_assertion_fail_count }}</th>
+              <th style="color:red">{{ total_script_fail_count }}</th>
+              <th style="color:rgb(197, 197, 197)">{{ total_fail_count }}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="overall-summary-table-cell" style="color:#00ff00ab">Assertion Fail</td>
-              <td class="overall-summary-table-cell" style="color:red">Script Fail</td>
-              <td class="overall-summary-table-cell" style="color:rgb(197, 197, 197)">Total Fail</td>
+              <td style="color:#00ff00ab">Assertion Fail</td>
+              <td style="color:red">Script Fail</td>
+              <td style="color:rgb(197, 197, 197)">Total Fail</td>
             </tr>
           </tbody>
         </table>
@@ -322,37 +297,36 @@
     <br><br>
     <h2>Test Execution Results</h2>
     <div class="second-container">
-      <input type="text" id="testcase-search" onkeyup="searchFunction('testcase-search','testcase-status-table')"
+      <input type="text" id="testcase-status-table-search" class="testcase-search" onkeyup="searchFunction('testcase-status-table-search', 'testcase-status-table')"
         placeholder="Search for TestCase IDs.." title="Type in a testcase id">
-      <table id="testcase-status-table" style="width: 100%;">
+      <table id="testcase-status-table" class="testcase-info-table">
         <thead>
           <tr>
-            <th class="testcase-status-table-header">Sr. No</th>
-            <th class="testcase-status-table-header">Test Case ID</th>
-            <th class="testcase-status-table-header">Description</th>
-            <th class="testcase-status-table-header">Start Time</th>
-            <th class="testcase-status-table-header">Duration</th>
-            <th class="testcase-status-table-header">Status</th>
-            <th class="testcase-status-table-header">Reason</th>
+            <th>Sr. No</th>
+            <th>Test Case ID</th>
+            <th>Description</th>
+            <th>Start Time</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Reason</th>
           </tr>
         </thead>
         <tbody>
           {% for row in testcase_status_table %}
           <tr>
-            <td class="testcase-status-table-cell">{{ row['SerialNum'] }}</td>
-            <td class="testcase-status-table-cell">{{ row['TestCaseID'] }}</td>
-            <td class="testcase-status-table-cell">{{ row['TestCaseDesc'] }}</td>
-            <td class="testcase-status-table-cell">{{ row['ExecutionStartTime'] }}</td>
-            <td class="testcase-status-table-cell">{{ row['Duration'] }}</td>
-            <!-- <td class="testcase-status-table-cell" style="color: #00ff00ab;">{{ row['Status'] }}</td> -->
+            <td>{{ loop.index }}</td>
+            <td>{{ row['TestCaseID'] }}</td>
+            <td>{{ row['TestCaseDesc'] }}</td>
+            <td>{{ row['ExecutionStartTime'] }}</td>
+            <td>{{ row['Duration'] }}</td>
             {% if row['Status'] == "PASSED" %}
-              <td class="testcase-status-table-cell" style="color: #00ff00ab;">{{ row['Status'] }}</td>
+            <td style="color: #00ff00ab;">{{ row['Status'] }}</td>
             {% elif row['Status'] == "FAILED" %}
-              <td class="testcase-status-table-cell" style="color: red;">{{ row['Status'] }}</td>
+            <td style="color: red;">{{ row['Status'] }}</td>
             {% else %}
-              <td class="testcase-status-table-cell" style="color: orange;">{{ row['Status'] }}</td>
+            <td style="color: orange;">{{ row['Status'] }}</td>
             {% endif %}
-            <td class="testcase-status-table-cell">{{ row['Reason'] }}</td>
+            <td>{{ row['Reason'] }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -394,9 +368,9 @@
   <div class="content" id="testcases" style="display:none;">
     <h2>Test Cases Details</h2>
     <div class="testcase-container">
-      <input type="text" id="testcase-search" onkeyup="searchFunction('testcase-search','testcase-table')"
+      <input type="text" id="testcase-table-search" class="testcase-search" onkeyup="searchFunction('testcase-table-search', 'testcase-table')"
         placeholder="Search for TestCase IDs.." title="Type in a testcase id">
-      <table id="testcase-table">
+      <table id="testcase-table" class="testcase-info-table">
         <thead class="header">
           <th>Sr. No.</th>
           <th>Test Case ID</th>
@@ -409,19 +383,18 @@
         <tbody>
           {% for row in testcase_table %}
           <tr>
-            <td>{{ row['SerialNum'] }}</td>
+            <td>{{ loop.index }}</td>
             <td>{{ row['TestCaseID'] }}</td>
             <td>{{ row['Steps'] }}</td>
             <td>{{ row['ExecutionStartTime'] }}</td>
             <td>{{ row['Duration'] }}</td>
             {% if row['Status'] == "PASSED" %}
-              <td style="color: #00ff00ab;">{{ row['Status'] }}</td>
+            <td style="color: #00ff00ab;">{{ row['Status'] }}</td>
             {% elif row['Status'] == "FAILED" %}
-              <td style="color: red;">{{ row['Status'] }}</td>
+            <td style="color: red;">{{ row['Status'] }}</td>
             {% else %}
-              <td style="color: orange;">{{ row['Status'] }}</td>
+            <td style="color: orange;">{{ row['Status'] }}</td>
             {% endif %}
-
             <td>{{ row['Reason'] }}</td>
           </tr>
           {% endfor %}

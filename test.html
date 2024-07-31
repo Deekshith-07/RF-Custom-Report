@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cases Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <style>
+        .graph-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .graph {
+            margin: 20px;
+        }
+        #pieChartContainer {
+            width: 20%;
+            height: 60vh;
+            margin-left: 10em;
+
+        }
+        #barChartContainer {
+            width: 800px;
+            height: 400px;
+            margin-left: 19em;
+        }
+        #scatterPlotContainer {
+            margin-top: -5em;
+            width: 800px;
+            height: 400px;
+        }
+        #lineGraphContainer {
+            margin-top: -5em;
+            width: 800px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="graph-container">
+        <div id="pieChartContainer" class="graph">
+            <canvas id="pieChart"></canvas>
+        </div>
+
+        <div id="barChartContainer" class="graph">
+            <canvas id="barChart"></canvas>
+        </div>
+
+        <div id="scatterPlotContainer" class="graph">
+            <canvas id="scatterPlot"></canvas>
+        </div>
+
+        <div id="lineGraphContainer" class="graph">
+            <canvas id="lineGraph"></canvas>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pie Chart
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+
+            // Sample data for pie chart - replace with your actual numbers
+            const passedCasesPie = 175;
+            const failedCasesPie = 15;
+            const skippedCasesPie = 10;
+
+            new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Pass', 'Fail', 'Skip'],
+                    datasets: [{
+                        data: [passedCasesPie, failedCasesPie, skippedCasesPie],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.8)',  // Green for Passed
+                            'rgba(255, 99, 132, 0.8)',  // Red for Failed
+                            'rgba(255, 206, 86, 0.8)'   // Yellow for Skipped
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Test Case Results (Pie Chart)',
+                            font: {
+                                size: 24,  // Increased from 18 to 24
+                                weight: 'bold'  // Optional: makes the title bold
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 30  // Adds some space below the title
+                            }
+
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return label + value + ' (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Bar Chart
+            const barCtx = document.getElementById('barChart').getContext('2d');
+
+            // Sample data for bar chart - replace with your actual numbers
+            const passedCasesBar = 175;
+            const failedCasesBar = 15;
+            const skippedCasesBar = 10;
+
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Test Cases'],
+                    datasets: [
+                        {
+                            label: 'Pass',
+                            data: [passedCasesBar],
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Fail',
+                            data: [failedCasesBar],
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Skip',
+                            data: [skippedCasesBar],
+                            backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                            borderColor: 'rgba(255, 206, 86, 1)',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Test Cases'
+                            }
+                        }
+                    },
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Test Case Results (Bar Chart)',
+                            font: {
+                                size: 24,  // Increased from 18 to 24
+                                weight: 'bold'  // Optional: makes the title bold
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 30  // Adds some space below the title
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+
+            const scatterCtx = document.getElementById('scatterPlot').getContext('2d');
+
+            // Sample data - replace with your actual test case data
+            const scatterTestData = [
+                { startTime: '2023-06-29T09:00:00', duration: 120, testCase: 'test_login' },
+                { startTime: '2023-06-29T09:15:00', duration: 90, testCase: 'test_logout' },
+                { startTime: '2023-06-29T09:30:00', duration: 150, testCase: 'test_payment' },
+                { startTime: '2023-06-29T10:00:00', duration: 80, testCase: 'test_registration' },
+                { startTime: '2023-06-29T10:30:00', duration: 200, testCase: 'test_search' },
+                // Add more data points as needed
+            ];
+
+            const data = scatterTestData.map(test => ({
+                x: new Date(test.startTime),
+                y: test.duration,
+                testCase: test.testCase
+            }));
+
+            new Chart(scatterCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Test Case Execution',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        pointRadius: 3,
+                        pointHoverRadius: 10,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Test Case Execution: Start Time vs Duration',
+                            font: {
+                                size: 24,  // Increased from 18 to 24
+                                weight: 'bold'  // Optional: makes the title bold
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 30  // Adds some space below the title
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const point = context.raw;
+                                    return `Start: ${point.x.toLocaleTimeString()}, Duration: ${point.y} seconds, Test Case: ${point.testCase}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'hour',
+                                displayFormats: {
+                                    hour: 'HH:mm'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Start Time'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Duration (seconds)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const lineCtx = document.getElementById('lineGraph').getContext('2d');
+
+            // Sample data - replace with your actual test case data
+            const lineTestData = [
+                { testCase: 'test_login', duration: 120 },
+                { testCase: 'test_logout', duration: 90 },
+                { testCase: 'test_payment', duration: 150 },
+                { testCase: 'test_registration', duration: 80 },
+                { testCase: 'test_search', duration: 200 },
+                // Add more data points as needed
+            ];
+
+            // Sort the data by duration to create a more meaningful line
+            lineTestData.sort((a, b) => a.duration - b.duration);
+
+            const labels = lineTestData.map(test => test.testCase);
+            const durations = lineTestData.map(test => test.duration);
+
+            new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Test Case Duration',
+                        data: durations,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.1,
+                        pointRadius: 3,
+                        pointHoverRadius: 10,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Test Case Duration',
+                            font: {
+                                size: 24,  // Increased from 18 to 24
+                                weight: 'bold'  // Optional: makes the title bold
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 30  // Adds some space below the title
+                            }
+
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Duration: ${context.parsed.y} seconds`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Test Case Name'
+                            },
+                            ticks: {
+                                maxRotation: 0,
+                                minRotation: 0
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Duration (seconds)'
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="statistics.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+
+
+
+  <title>Test Report</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Lucida Console", "Courier New", monospace;
+      background: hsla(0, 1%, 17%, 0.711);
+      color: rgb(243, 240, 240);
+    }
+
+
+    .sidebar {
+      margin: 0;
+      padding: 0;
+      width: 200px;
+      background: hsla(0, 1%, 17%, 0.711);
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 16px;
+      text-decoration: none;
+    }
+
+    .sidebar a.active {
+      background-color: hsla(0, 1%, 17%, 0.711);
+    }
+
+    .sidebar a:hover:not(.active) {
+      background-color: #7e7c7b;
+    }
+
+    div.content {
+      margin-top: 70px;
+      margin-left: 200px;
+      padding: 1px 16px;
+    }
+
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .sidebar a {
+        float: left;
+      }
+
+      div.content {
+        margin-left: 0;
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }
+    }
+
+    /* Nav Bar Styles */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+      background-color: #7e7c7b;
+      /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      position: fixed;
+      /* Make the navbar fixed */
+      top: 0;
+      /* Position it at the top */
+      width: 100%;
+      /* Make it span the full width */
+      z-index: 1000;
+      /* Ensure it stays above other content */
+    }
+
+    .navbar-title {
+      font-weight: bold;
+      color: #ffffff;
+      font-size: 20px;
+      margin-left: 17px;
+    }
+
+    .navbar-menu {
+      list-style-type: none;
+      display: flex;
+      gap: 7px;
+    }
+
+    .navbar-menu li {
+      margin-right: 10px;
+    }
+
+    .navbar-menu li a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .table-container {
+      display: flex;
+      flex-direction: row;
+      gap: 50px;
+    }
+
+    .first-container,
+    .second-container {
+      border: 1px solid #7d7b7b;
+      border-radius: 15px;
+      background-color: #333333;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      text-align: center;
+      width: 100%;
+    }
+
+    .second-container {
+      /* min-height: 400px; */
+      max-height: 600px;
+      overflow-y: scroll;
+      /* Enable vertical scrolling */
+      -ms-overflow-style: none;
+      /* Internet Explorer 10+ */
+      scrollbar-width: none;
+      /* Firefox */
+    }
+
+    .second-container::-webkit-scrollbar {
+      display: none;
+    }
+
+
+    #overall-summary-table th,
+    #overall-summary-table td {
+      border-collapse: collapse;
+      margin: 0 auto;
+      padding: 5px;
+
+    }
+
+
+    #overall-summary-table th {
+      font-size: 40px;
+      width: 25%;
+      font-family: "Varela Round";
+    }
+
+    #overall-summary-table td {
+      font-size: 25px;
+    }
+
+
+    .configurations {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .config-data {
+      border: 1px solid #7d7b7b;
+      border-radius: 15px;
+      background-color: #333333;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      padding: 20px;
+    }
+
+    .timestamp {
+      position: absolute;
+      top: 80px;
+      right: 10px;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .testcase-search {
+      width: 30%;
+      font-size: 15px;
+      padding: 12px 20px 12px 20px;
+      border: 1px solid #6464646b;
+      border-radius: 5px;
+      margin-bottom: 12px;
+      background: hsla(0, 1%, 17%, 0.711);
+      color: rgb(132, 130, 130);
+      font-family: "Lucida Console", "Courier New", monospace;
+      margin-top: 12px;
+      margin-right: 66%;
+    }
+
+    .testcase-container {
+      border: 1px solid #7d7b7b;
+      border-radius: 15px;
+      background-color: #333333;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      text-align: center;
+      width: 100%;
+
+    }
+
+    .testcase-info-table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 15px;
+      color: white;
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    .testcase-info-table th,
+    .testcase-info-table td {
+      text-align: center;
+      padding: 15px;
+      max-width: 380px;
+    }
+
+    .testcase-info-table td {
+      border-radius: 15px;
+      box-shadow: 0 4px 8px 0 rgba(41, 41, 41, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .testcase-info-table th,
+    .testcase-info-table tr:hover {
+      background-color: rgba(84, 82, 82, 0.383);
+      box-shadow: 0 4px 8px 0 rgba(53, 53, 53, 0.588), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .graph-top-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid black;
+  }
+
+  .graph-bottom-container {
+    margin-top: -1em;
+    border: 1px solid black;
+  }
+  .graph {
+      margin: 20px;
+  }
+  #pieChartContainer {
+      width: 20%;
+      height: 45vh;
+      margin-left: 10em;
+      border: 1px solid black;
+
+  }
+  #barChartContainer {
+      width: 800px;
+      height: 400px;
+      margin-left: 19em;
+      border: 1px solid black;
+  }
+  #scatterPlotContainer {
+    width: 80%;
+    height: 80vh;
+    margin-left: 5em;
+    border: 1px solid black;
+  }
+  #lineGraphContainer {
+    width: 80%;
+    height: 80vh;
+    margin-left: 5em;
+    border: 1px solid black;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="navbar-title">
+      <h3>ORANGEHRM TEST REPORT</h3>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <a class="active" href="#overview" onclick="showContent('overview'); return false;">Overview</a>
+    <a href="#testcases" onclick="showContent('testcases'); return false;">Test Cases</a>
+    <a href="#configurations" onclick="showContent('configurations'); return false;">Configurations</a>
+    <a href="#graphs" onclick="showContent('graphs'); return false;">Graphs</a>
+  </div>
+  <div class="timestamp">Generated on 06-29-2024 03:56:28 PM</div>
+  <div class="content" id="overview">
+    <h2>Test Execution Summary</h2>
+    <div class="table-container">
+      <div class="first-container">
+        <table id="overall-summary-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th style="color:#00ff00ab;">2</th>
+              <th style="color:red">1</th>
+              <th style="color:orange">0</th>
+              <th style="color:rgb(197, 197, 197)">3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:#00ff00ab">Passed</td>
+              <td style="color:red">Failed</td>
+              <td style="color:orange">Skipped</td>
+              <td style="color:rgb(197, 197, 197)">Total</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="first-container">
+        <table id="overall-summary-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th style="color:#00ff00ab;">1</th>
+              <th style="color:red">0</th>
+              <th style="color:rgb(197, 197, 197)">1</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:#00ff00ab">Assertion Fail</td>
+              <td style="color:red">Script Fail</td>
+              <td style="color:rgb(197, 197, 197)">Total Fail</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br><br>
+    <h2>Test Execution Results</h2>
+    <div class="second-container">
+      <input type="text" id="testcase-status-table-search" class="testcase-search"
+        onkeyup="searchFunction('testcase-status-table-search', 'testcase-status-table')"
+        placeholder="Search for TestCase IDs.." title="Type in a testcase id">
+      <table id="testcase-status-table" class="testcase-info-table">
+        <thead>
+          <tr>
+            <th>Sr. No</th>
+            <th>Test Case ID</th>
+            <th>Description</th>
+            <th>Start Time</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td>1</td>
+            <td>TC01</td>
+            <td>Check basic web keywords on Orange HRM site1</td>
+            <td>03:56:31 PM</td>
+            <td>17 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>2</td>
+            <td>TC02</td>
+            <td>Check basic web keywords on Orange HRM site2</td>
+            <td>03:56:48 PM</td>
+            <td>16 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>3</td>
+            <td>TC03</td>
+            <td>Check basic web keywords on Rahul Shetty site</td>
+            <td>03:57:05 PM</td>
+            <td>10 sec</td>
+
+            <td style="color: red;">FAILED</td>
+
+            <td>Check point got failed since excepcted value : 'courses1' and actual value : 'courses' are not matched,
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content" id="configurations" style="display:none;">
+    <h2>Configurations</h2>
+    <div class="project-config-container">
+      <div class="configurations">
+        <div class="config-data">
+          <h2 style="text-decoration: underline;">Project Configurations</h2>
+          <div style="margin-top: 2em;">
+            <h4>Application Name: ORANGEHRM</h4>
+            <h4>Browser: Chrome</h4>
+            <h4>Aplication URL: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login/h4>
+              <h4>Environment: Test</h4>
+              <h4>Data Source: Excel</h4>
+              <h4>Video Recording: No</h4>
+              <h4>Parallel Execution: Yes</h4>
+          </div>
+        </div>
+
+        <div class="config-data">
+          <h2 style="text-decoration: underline;">Report Configurations</h2>
+          <div style="margin-top: 2em;">
+            <h4>Report Path: C:\\vscode\\Git Lab\\automation_project</h4>
+            <h4>Generate Reports: Yes</h4>
+            <h4>Update Historic Report: Yes</h4>
+            <h4>Receive Report via Email: Yes</h4>
+            <h4>Email IDs: deekshith.p@sirmaindia.com</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content" id="testcases" style="display:none;">
+    <h2>Test Cases Details</h2>
+    <div class="testcase-container">
+      <input type="text" id="testcase-table-search" class="testcase-search"
+        onkeyup="searchFunction('testcase-table-search', 'testcase-table')" placeholder="Search for TestCase IDs.."
+        title="Type in a testcase id">
+      <table id="testcase-table" class="testcase-info-table">
+        <thead class="header">
+          <th>Sr. No.</th>
+          <th>Test Case ID</th>
+          <th>Step Name</th>
+          <th>Start Time</th>
+          <th>Duration</th>
+          <th>Status</th>
+          <th>Reason</th>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td>1</td>
+            <td>TC01</td>
+            <td>Navigate to URL</td>
+            <td>03:56:31 PM</td>
+            <td>7 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>2</td>
+            <td>TC01</td>
+            <td>Verify Page Title</td>
+            <td>03:56:38 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>3</td>
+            <td>TC01</td>
+            <td>Reload</td>
+            <td>03:56:38 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>4</td>
+            <td>TC01</td>
+            <td>Wait for Element - LoginPageHeader</td>
+            <td>03:56:39 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>5</td>
+            <td>TC01</td>
+            <td>Verify Text - UsernameText</td>
+            <td>03:56:39 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>6</td>
+            <td>TC01</td>
+            <td>Verify Text Contains - PasswordText</td>
+            <td>03:56:40 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>7</td>
+            <td>TC01</td>
+            <td>Verify Text Starts With - UsernameText</td>
+            <td>03:56:40 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>8</td>
+            <td>TC01</td>
+            <td>Verify Text Ends With - PasswordText</td>
+            <td>03:56:40 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>9</td>
+            <td>TC01</td>
+            <td>Input Data - UsernameField</td>
+            <td>03:56:40 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>10</td>
+            <td>TC01</td>
+            <td>Input Data - PasswordField</td>
+            <td>03:56:41 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>11</td>
+            <td>TC01</td>
+            <td>Clear Text Field - UsernameField</td>
+            <td>03:56:41 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>12</td>
+            <td>TC01</td>
+            <td>Input Data - UsernameField</td>
+            <td>03:56:42 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>13</td>
+            <td>TC01</td>
+            <td>Click - LoginButton</td>
+            <td>03:56:43 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>14</td>
+            <td>TC01</td>
+            <td>Element Should Be Present - Dashboard</td>
+            <td>03:56:31 PM</td>
+            <td>14 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>15</td>
+            <td>TC01</td>
+            <td>Browser Close</td>
+            <td>03:56:45 PM</td>
+            <td>3 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>16</td>
+            <td>TC02</td>
+            <td>Navigate to URL</td>
+            <td>03:56:48 PM</td>
+            <td>7 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>17</td>
+            <td>TC02</td>
+            <td>Verify Page Title</td>
+            <td>03:56:55 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>18</td>
+            <td>TC02</td>
+            <td>Reload</td>
+            <td>03:56:55 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>19</td>
+            <td>TC02</td>
+            <td>Wait for Element - LoginPageHeader</td>
+            <td>03:56:56 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>20</td>
+            <td>TC02</td>
+            <td>Verify Text - UsernameText</td>
+            <td>03:56:56 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>21</td>
+            <td>TC02</td>
+            <td>Verify Text Contains - PasswordText</td>
+            <td>03:56:56 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>22</td>
+            <td>TC02</td>
+            <td>Verify Text Starts With - UsernameText</td>
+            <td>03:56:57 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>23</td>
+            <td>TC02</td>
+            <td>Verify Text Ends With - PasswordText</td>
+            <td>03:56:57 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>24</td>
+            <td>TC02</td>
+            <td>Input Data - UsernameField</td>
+            <td>03:56:57 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>25</td>
+            <td>TC02</td>
+            <td>Input Data - PasswordField</td>
+            <td>03:56:57 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>26</td>
+            <td>TC02</td>
+            <td>Clear Text Field - UsernameField</td>
+            <td>03:56:58 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>27</td>
+            <td>TC02</td>
+            <td>Input Data - UsernameField</td>
+            <td>03:56:59 PM</td>
+            <td>0 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>28</td>
+            <td>TC02</td>
+            <td>Click - LoginButton</td>
+            <td>03:57:00 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>29</td>
+            <td>TC02</td>
+            <td>Element Should Not Be Present - UserManagementScreen</td>
+            <td>03:56:48 PM</td>
+            <td>14 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>30</td>
+            <td>TC02</td>
+            <td>Browser Close</td>
+            <td>03:57:02 PM</td>
+            <td>3 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>31</td>
+            <td>TC03</td>
+            <td>Navigate to URL</td>
+            <td>03:57:05 PM</td>
+            <td>6 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+          <tr>
+            <td>32</td>
+            <td>TC03</td>
+            <td>Verify Attribute Value - ProductTable</td>
+            <td>03:57:11 PM</td>
+            <td>1 sec</td>
+
+            <td style="color: red;">FAILED</td>
+
+            <td>Check point got failed since expected value: 'courses1' and actual value: 'courses' are not matched.
+            </td>
+          </tr>
+
+          <tr>
+            <td>33</td>
+            <td>TC03</td>
+            <td>Browser Close</td>
+            <td>03:57:12 PM</td>
+            <td>3 sec</td>
+
+            <td style="color: #00ff00ab;">PASSED</td>
+
+            <td></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content" id="graphs" style="display:none;">
+    <div class="graph-top-container">
+      <div id="pieChartContainer" class="graph">
+          <canvas id="pieChart"></canvas>
+      </div>
+
+      <div id="barChartContainer" class="graph">
+          <canvas id="barChart"></canvas>
+      </div>
+    </div>
+    <div class="graph-bottom-container"></div>
+      <div id="scatterPlotContainer" class="graph">
+          <canvas id="scatterPlot"></canvas>
+      </div>
+
+      <div id="lineGraphContainer" class="graph">
+          <canvas id="lineGraph"></canvas>
+      </div>
+  </div>
+  </div>
+
+  <script>
+
+    function showContent(section) {
+      // Hide all sections
+      var sections = document.getElementsByClassName('content');
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+      }
+
+      // Show the selected section
+      document.getElementById(section).style.display = 'block';
+
+      // Remove the 'active' class from all sidebar links
+      var sidebarLinks = document.querySelectorAll('.sidebar a');
+      for (var i = 0; i < sidebarLinks.length; i++) {
+        sidebarLinks[i].classList.remove('active');
+      }
+
+      // Add the 'active' class to the clicked sidebar link
+      var activeLink = document.querySelector('.sidebar a[href="#' + section + '"]');
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+    }
+
+
+    function searchFunction(inputId, tableId) {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById(inputId);
+      filter = input.value.toUpperCase();
+      table = document.getElementById(tableId);
+      tr = table.getElementsByTagName("tr");
+
+      for (i = 1; i < tr.length; i++) {  // Start from 1 to skip the header row
+        td = tr[i].getElementsByTagName("td")[1];  // Get the second column (index 1)
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      // Pie Chart
+      const pieCtx = document.getElementById('pieChart').getContext('2d');
+
+      // Sample data for pie chart - replace with your actual numbers
+      const passedCasesPie = 175;
+      const failedCasesPie = 15;
+      const skippedCasesPie = 10;
+
+      new Chart(pieCtx, {
+          type: 'pie',
+          data: {
+              labels: ['Pass', 'Fail', 'Skip'],
+              datasets: [{
+                  data: [passedCasesPie, failedCasesPie, skippedCasesPie],
+                  backgroundColor: [
+                      'rgba(75, 192, 192, 0.8)',  // Green for Passed
+                      'rgba(255, 99, 132, 0.8)',  // Red for Failed
+                      'rgba(255, 206, 86, 0.8)'   // Yellow for Skipped
+                  ],
+                  borderColor: [
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(255, 206, 86, 1)'
+                  ],
+                  borderWidth: 2
+              }]
+          },
+          options: {
+              responsive: true,
+              plugins: {
+                  title: {
+                      display: true,
+                      text: 'Test Case Results (Pie Chart)',
+                      font: {
+                          size: 24,  // Increased from 18 to 24
+                          weight: 'bold'  // Optional: makes the title bold
+                      },
+                      padding: {
+                          top: 10,
+                          bottom: 30  // Adds some space below the title
+                      },
+                      color: '#FFFFFF'
+
+                  },
+                  legend: {
+                      display: true,
+                      position: 'top',
+                      labels: {
+                        color: '#FFFFFF' // Legend text color
+                    }
+                  },
+                  tooltip: {
+                      callbacks: {
+                          label: function(context) {
+                              let label = context.label || '';
+                              if (label) {
+                                  label += ': ';
+                              }
+                              const value = context.parsed;
+                              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                              const percentage = Math.round((value / total) * 100);
+                              return label + value + ' (' + percentage + '%)';
+                          }
+                      }
+                  }
+              }
+          }
+      });
+
+      // Bar Chart
+      const barCtx = document.getElementById('barChart').getContext('2d');
+
+      // Sample data for bar chart - replace with your actual numbers
+      const passedCasesBar = 175;
+      const failedCasesBar = 15;
+      const skippedCasesBar = 10;
+
+      new Chart(barCtx, {
+          type: 'bar',
+          data: {
+              labels: ['Test Cases'],
+              datasets: [
+                  {
+                      label: 'Pass',
+                      data: [passedCasesBar],
+                      backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                      borderColor: 'rgba(75, 192, 192, 1)',
+                      borderWidth: 2
+                  },
+                  {
+                      label: 'Fail',
+                      data: [failedCasesBar],
+                      backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                      borderColor: 'rgba(255, 99, 132, 1)',
+                      borderWidth: 2
+                  },
+                  {
+                      label: 'Skip',
+                      data: [skippedCasesBar],
+                      backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                      borderColor: 'rgba(255, 206, 86, 1)',
+                      borderWidth: 2
+                  }
+              ]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Number of Test Cases'
+                      }
+                  }
+              },
+              responsive: true,
+              plugins: {
+                  title: {
+                      display: true,
+                      text: 'Test Case Results (Bar Chart)',
+                      font: {
+                          size: 24,  // Increased from 18 to 24
+                          weight: 'bold'  // Optional: makes the title bold
+                      },
+                      padding: {
+                          top: 10,
+                          bottom: 30  // Adds some space below the title
+                      },
+                      color: '#FFFFFF'
+                  },
+                  legend: {
+                      display: true,
+                      position: 'top',
+                      labels: {
+                        color: '#FFFFFF' // Legend text color
+                    }
+                  }
+              }
+          }
+      });
+
+      const scatterCtx = document.getElementById('scatterPlot').getContext('2d');
+
+      // Sample data - replace with your actual test case data
+      const scatterTestData = [
+          { startTime: '2023-06-29T09:00:00', duration: 120, testCase: 'test_login' },
+          { startTime: '2023-06-29T09:15:00', duration: 90, testCase: 'test_logout' },
+          { startTime: '2023-06-29T09:30:00', duration: 150, testCase: 'test_payment' },
+          { startTime: '2023-06-29T10:00:00', duration: 80, testCase: 'test_registration' },
+          { startTime: '2023-06-29T10:30:00', duration: 200, testCase: 'test_search' },
+          // Add more data points as needed
+      ];
+
+      const data = scatterTestData.map(test => ({
+          x: new Date(test.startTime),
+          y: test.duration,
+          testCase: test.testCase
+      }));
+
+      new Chart(scatterCtx, {
+          type: 'scatter',
+          data: {
+              datasets: [{
+                  label: 'Test Case Execution',
+                  data: data,
+                  backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  pointRadius: 3,
+                  pointHoverRadius: 10,
+                  borderWidth: 2,
+              }]
+          },
+          options: {
+              responsive: true,
+              plugins: {
+                  title: {
+                      display: true,
+                      text: 'Test Case Execution: Start Time vs Duration',
+                      font: {
+                          size: 24,  // Increased from 18 to 24
+                          weight: 'bold'  // Optional: makes the title bold,
+                      },
+                      padding: {
+                          top: 10,
+                          bottom: 30  // Adds some space below the title
+                      },
+                      color: '#FFFFFF'
+                  },
+                  legend: {
+                    labels: {
+                        color: '#FFFFFF' // Legend text color
+                    }
+                },
+                  tooltip: {
+                      callbacks: {
+                          label: function(context) {
+                              const point = context.raw;
+                              return `Start: ${point.x.toLocaleTimeString()}, Duration: ${point.y} seconds, Test Case: ${point.testCase}`;
+                          }
+                      }
+                  }
+              },
+              scales: {
+                  x: {
+                      type: 'time',
+                      time: {
+                          unit: 'hour',
+                          displayFormats: {
+                              hour: 'HH:mm'
+                          }
+                      },
+                      title: {
+                          display: true,
+                          text: 'Start Time',
+                          color: '#FFFFFF'
+                      },
+                      ticks: {
+                        color: '#FFFFFF'
+                      }
+                  },
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Duration (seconds)',
+                          color: '#FFFFFF'
+                      },
+                      ticks: {
+                        color: '#FFFFFF'
+                      }
+                  }
+              }
+          }
+      });
+
+      const lineCtx = document.getElementById('lineGraph').getContext('2d');
+
+      // Sample data - replace with your actual test case data
+      const lineTestData = [
+          { testCase: 'test_login', duration: 120 },
+          { testCase: 'test_logout', duration: 90 },
+          { testCase: 'test_payment', duration: 150 },
+          { testCase: 'test_registration', duration: 80 },
+          { testCase: 'test_search', duration: 200 },
+          // Add more data points as needed
+      ];
+
+      // Sort the data by duration to create a more meaningful line
+      lineTestData.sort((a, b) => a.duration - b.duration);
+
+      const labels = lineTestData.map(test => test.testCase);
+      const durations = lineTestData.map(test => test.duration);
+
+      new Chart(lineCtx, {
+          type: 'line',
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: 'Test Case Duration',
+                  data: durations,
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  tension: 0.1,
+                  pointRadius: 3,
+                  pointHoverRadius: 10,
+                  borderWidth: 2
+              }]
+          },
+          options: {
+              responsive: true,
+              plugins: {
+                  title: {
+                      display: true,
+                      text: 'Test Case Duration',
+                      font: {
+                          size: 24,  // Increased from 18 to 24
+                          weight: 'bold'  // Optional: makes the title bold
+                      },
+                      padding: {
+                          top: 10,
+                          bottom: 30  // Adds some space below the title
+                      },
+                      color: '#FFFFFF'
+
+                  },
+                  legend: {
+                    labels: {
+                        color: '#FFFFFF' // Legend text color
+                    }
+                },
+                  tooltip: {
+                      callbacks: {
+                          label: function(context) {
+                              return `Duration: ${context.parsed.y} seconds`;
+                          }
+                      }
+                  }
+              },
+              scales: {
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Test Case Name',
+                          color: '#FFFFFF'
+                      },
+                      ticks: {
+                          maxRotation: 0,
+                          minRotation: 0,
+                          color: '#FFFFFF'
+                      }
+                  },
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Duration (seconds)',
+                          color: '#FFFFFF'
+                      },
+                      ticks: {
+                        maxRotation: 0,
+                        minRotation: 0,
+                        color: '#FFFFFF'
+                    }
+                  }
+              }
+          }
+      });
+
+  });
+
+  </script>
+</body>
+
+</html>
